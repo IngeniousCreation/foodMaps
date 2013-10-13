@@ -1,0 +1,3 @@
+[submodule "resources/js/asHelper"]
+	path = resources/js/asHelper
+	url = git@github.com:IngeniousCreation/AppStormJS-Helper.git

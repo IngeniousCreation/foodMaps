@@ -1,0 +1,97 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+		<title>Narrow Jumbotron Template for Bootstrap</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="resources/css/bootstrap.css" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="resources/css/default-theme.css" rel="stylesheet">
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="../../assets/js/html5shiv.js"></script>
+			<script src="../../assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+
+		<div id="layout" class="container">
+
+		</div> <!-- /container -->
+		
+		<!-- Library -->
+		<!--<script src="http://code.jquery.com/jquery-git2.js"></script>-->
+        <script src="resources/js/jquery.min.js"></script>
+        <script src="resources/js/sockjs-0.3.4.min.js"></script>
+
+		<!-- Bootstrap -->
+		<script src="resources/js/bootstrap.min.js"></script>
+
+		<!-- AppStorm -->
+		<script src="resources/js/appstorm-handlebars.min.js"></script>
+
+		<!-- Sockets -->
+		<script src="resources/js/socket.js"></script>
+		<script src="resources/js/sharedMaps.js"></script>
+
+		<!-- Helpers -->
+        <script src="resources/js/helpers/handlebars.js"></script>
+        <script src="resources/js/helpers/states.js"></script>
+		
+		<!-- loader -->
+		<script src="resources/js/loaders/foodMaps.js"></script>
+
+		<script>
+		a.environment.set("debug", true);
+		
+//		sharedMaps.connect();
+//		$("body").bind("click", function(event) {
+//			// console.log(event);
+//			sharedMaps.click({
+//				"pageX" : event.pageX,
+//				"pageY" : event.pageY
+//			});
+//		});
+		</script>
+
+        <script>
+            (function(){
+                var currentHash = a.page.event.hash.getHash(),
+                        elapse      = null,
+                        max         = 1000;
+
+                // Initialise page event hash system
+                a.page.event.hash.setPreviousHash("");
+                window.location.href = "#loading_application";
+
+                /**
+                 * handle "state change" for every browser
+                 */
+                function firstHandle() {
+                    if(a.page.event.hash.getHash() !== currentHash) {
+                        window.location.href = "#" + currentHash;
+                        max = 0;
+                    }
+                    if(max-- <= 0) {
+                        clearInterval(elapse);
+                    }
+                };
+
+                // The main starter is here, we will customize it soon
+                if(currentHash === null || currentHash === "" || !a.state.hashExists(currentHash)) {
+                    currentHash = "/home";
+                }
+
+                elapse = setInterval(firstHandle, 50);
+            })();
+        </script>
+
+</body>
+</html>
