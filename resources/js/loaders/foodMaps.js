@@ -1,32 +1,9 @@
-// Configuration
-var $u =
-        new StateHelper({
-            state:{
-                prefix: "unlogged"
-            },
-            save: true
-        }),
-    $l =
-        new StateHelper({
-            state:{
-                prefix: "logged"
-            },
-            functions : {
-                preLoad : function(result) {
-                    var u = a.storage.getItem("auth");
-                    if(a.isNull(u) || a.isNull(u.username) || a.isNull(u.password)) {
-                        window.location.hash = "#/home";
-                        result.fail();
-                    }
-                    result.done();
-                }
-            },
-            save: true
-        }),
-    uTplPath = "templates/unlogged",
-    lTplPath = "templates/logged";
+/*
+ -----------------------------
+ Unlogged
+ -----------------------------
+ */
 
-// Unlogged
 $("div#layout")
 	.use($u)
 	.addState("root", null, uTplPath + "/layout/default.html", null)
@@ -35,7 +12,7 @@ $("div#layout")
 	$("ul#header-menu")
 		.use($u)
 		.parent("root")
-		.addState("header-menu", null, uTplPath + "/layout/menu/header.html", null)
+		.addState("header-menu", null, "layout/menu/header", null)
 		.converter(function(data){
 			data.menuElements = [{
 				title : "Home",
@@ -53,76 +30,71 @@ $("div#layout")
 	$("div#content")
 		.use($u)
 		.parent("root")
-		.addState("home", "/home", uTplPath + "/home/index.html", null)
+		.addState("home", "/home", "home/index", null)
 		.loadBefore(["unlogged-header-menu"])
 		.replace();
 
 	$("div#content")
 		.use($u)
 		.parent("root")
-		.addState("about", "/about", uTplPath + "/test/index.html", null)
+		.addState("about", "/about", "test/index", null)
 		.loadBefore(["unlogged-header-menu"])
 		.replace();
 
 	$("div#content")
 		.use($u)
 		.parent("root")
-		.addState("signIn", "/sign-in", uTplPath + "/user/signin.html", null)
+		.addState("signIn", "/sign-in", "user/signin", null)
 		.loadBefore(["unlogged-header-menu"])
-		.postLoad(function(){
-
-			$("form#userPost").submit(function(e){
-				e.preventDefault();
-				var formData = a.form.get($(this).get(0));
-
-				$.post("/foodMaps/api/public/users/signin",{
-					data: formData
-				}, function(data){
+        .addListener("jquery", ["form#userPost", "submit"], function(e){
+            e.preventDefault();
+            var formData = a.form.get($(this).get(0));
+            $ws.post("users/signin", {data : formData}, function(data){
+                if(data.type=="success") {
                     a.storage.setItem("auth", data.data);
                     window.location.hash="#/app/dashboard"
-				});
-			});
-
-			return true;
-		})
+                }
+            });
+        })
 		.replace();
 
 $("div#content")
     .use($u)
     .parent("root")
-    .addState("signUp", "/sign-up", uTplPath + "/user/signup.html", null)
+    .addState("signUp", "/sign-up", "user/signup", null)
     .loadBefore(["unlogged-header-menu"])
-    .postLoad(function(){
-
-        $("form#userPost").submit(function(e){
-            e.preventDefault();
-            var formData = a.form.get($(this).get(0));
-
-            $.post("/foodMaps/api/public/users/signup",{
-                data: formData
-            }, function(data){
-                if(data.type === "success") {
-                }
-            });
+    .addListener("jquery", ["form#userPost", "submit"], function(e){
+        e.preventDefault();
+        var formData = a.form.get($(this).get(0));
+        $ws.post("users/signup", {data : formData}, function(data){
+            if(data.type=="success") {
+                window.location.hash = "#/sign-in";
+            }
         });
-
-        return true;
     })
     .replace();
 
-    /*
-    -----------------------------
-    Errors
-    -----------------------------
-    */
-    $("div#content")
-        .use($u)
-        .parent("root")
-        .addState("signUp", "/error/404", uTplPath + "/errors/404.html", null)
-        .loadBefore(["unlogged-header-menu"])
-        .replace();
+/*
+-----------------------------
+Errors
+-----------------------------
+*/
+$("div#layout")
+    .use($e)
+    .addState("root", null, uTplPath + "/layout/default.html", null)
+    .replace();
 
-// Logged
+$("div#content")
+    .use($e)
+    .parent("root")
+    .addState("404", "/error/404", "404", null)
+    .replace();
+
+/*
+-----------------------------
+Logged
+-----------------------------
+ */
 $("div#layout")
     .use($l)
     .addState("root", null, lTplPath + "/layout/default.html", null)
@@ -130,9 +102,7 @@ $("div#layout")
 
         a.timer.add(function(){
             var u = a.storage.getItem("auth");
-            $.post("/foodMaps/api/public/users/signin", {
-                data : u
-            }, function(data) {
+            $ws.post("users/signin", {data : u}, function(data){
                 if(data.type=="error") {
                     a.storage.removeItem("auth");
                     window.location.hash = "#/home";
@@ -172,11 +142,3 @@ $("div#layout")
         .addState("dashboard", "/app/profile", lTplPath + "/profile/index.html", null)
         .loadBefore(["logged-header-menu"])
         .replace();
-
-// Check other
-a.message.addListener("a.state.begin", function(hash) {
-    var hashExists = a.state.hashExists(hash.value);
-    if(!hashExists) {
-        window.location.hash = "#/error/404";
-    }
-});

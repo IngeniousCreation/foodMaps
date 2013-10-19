@@ -29,3 +29,43 @@
 
     elapse = setInterval(firstHandle, 50);
 })();
+
+/*
+ -------------------------------
+ JQUERY
+ -------------------------------
+ */
+jQuery.support.cors = true;
+
+
+/**
+ * Default base ajax request
+ *
+ * @param options {Object} The base options to apply
+ * @return {jQuery} The ajax object
+ */
+function ajax(options) {
+    var settings = {
+        beforeSend  : function(xhr){
+            xhr.setRequestHeader("Authorization", null);
+        },
+        fields      : {
+            withCredentials : true
+        },
+        crossDomain : true,
+        contentType : "application/json; charset=UTF-8",
+        dataType    : "json"
+    };
+
+    // Getting uri if there is
+    if(options.uri && options.uri.indexOf("http") !== 0) {
+        if(options.uri.charAt(0) === "/") {
+            options.uri = options.uri.substr(1);
+        }
+        options.url = kbugs.getBaseUrl() + "/" + options.uri;
+    }
+
+    // Extending object before request
+    var composed = jQuery.extend(settings, options);
+    return jQuery.ajax(composed)
+};
