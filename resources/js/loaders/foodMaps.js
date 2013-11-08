@@ -240,7 +240,7 @@ $("div#layout")
                     d.metaList[i]["icon"] = __truncate(d.metaList[i]["icon"], 20);
                 }
                 for(var i in d.categoryList) {
-                    d.metaList[i]["name"] = __truncate(d.metaList[i]["name"], 20);
+                    d.categoryList[i]["name"] = __truncate(d.categoryList[i]["name"], 20);
                 }
             })
             .postLoad(function(r) {
