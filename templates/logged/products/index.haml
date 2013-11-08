@@ -1,0 +1,21 @@
+.container
+  .row
+    .col-lg-12
+      %ul.nav.nav-tabs
+        %li.active
+          %a{"data-toggle" => "tab", href: "#markers"}
+            %i.fa.fa-map-marker
+            Markers
+        %li
+          %a{"data-toggle" => "tab", href: "#categories"}
+            %i.fa.fa-archive
+            Categories
+        %li
+          %a{"data-toggle" => "tab", href: "#metas"}
+            %i.fa.fa-asterisk
+            Metas
+      / Tab panes
+      .tab-content
+        #markers.tab-pane.active ...
+        #categories.tab-pane ...
+        #metas.tab-pane ...

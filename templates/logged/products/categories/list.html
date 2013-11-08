@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-lg-12">
+        <p>&nbsp;</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <form id="categoryPost" class="row form-inline" role="form" enctype="multipart/form-data">
+            <div class="col-sm-5 form-group">
+                <label class="sr-only" for="name">Title</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="name">
+            </div>
+            <div class="col-sm-5 form-group">
+                <label class="sr-only" for="description">Description</label>
+                <input type="text" class="form-control" id="description" name="description" placeholder="description">
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class=" btn btn-primary" style="width: 100%;">Add Icon</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <th width="5%">#</th>
+                <th width="45%"h>Title</th>
+                <th width="50%"h>Description</th>
+                <th>&nbsp;</th>
+            </thead>
+            <tbody>
+            {{#each categoryList}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{name}}</td>
+                <td>{{description}}</td>
+                <td>
+                    <a href="#" id="categoryDelete" data-id="{{id}}">Delete</a>
+                </td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

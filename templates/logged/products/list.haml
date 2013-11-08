@@ -1,0 +1,53 @@
+.row
+  .col-lg-12
+    %p  
+.row
+  .col-lg-12
+    %form#productPost.row{role: "form"}
+      .col-sm-12.form-group
+        %label.sr-only{for: "title"} Title
+        %input#title.form-control{name: "title", placeholder: "title", type: "text"}
+      .col-sm-12.form-group
+        %label.sr-only{for: "description"} Description
+        %textarea#description.form-control{name: "description", placeholder: "description"}
+      .col-sm-12
+        .row
+          .col-sm-5.form-group
+            %label.sr-only{for: "category"} Category
+            %select#category.form-control
+              {{generateDDSlikOption categoryList "id" "name"}}
+          .col-sm-5.form-group
+            %label.sr-only{for: "meta"} Icon
+            %select#meta.form-control
+              {{generateDDSlikOptionWithImage metaList "id" "icon"}}
+          .col-sm-2
+            %a.btn.btn-default#map{"data-content" => "And here's some amazing content. It's very engaging. right?", "data-original-title" => "Selectionner une destination", "data-toggle" => "popover", "data-placement" => "bottom", href: "#", role: "button", title: ""}
+              %i.fa.fa-map-marker
+      .col-sm-12
+        %button.btn.btn-primary{style: "width: 100%;", type: "submit"} Add Product
+      %input{type:"hidden",name:"lat",id:"lat"}
+      %input{type:"hidden",name:"lgt",id:"lgt"}
+      %input{type:"hidden",name:"products_category_id"}
+      %input{type:"hidden",name:"products_meta_id"}
+    .progress
+      %progress.progress-bar
+.row
+  .col-lg-12
+    %table.table.table-condensed.table-bordered
+      %thead
+        %th{width: "5%"} #
+        %th{h: "", width: "75%"} title
+        %th{width: "25%"} Category
+        %th{width: "5%"} Meta
+        %th  
+      %tbody
+        {{#each list}}
+        %tr
+          %td {{id}}
+          %td {{title}}
+          %td {{categoryName}}
+          %td {{metaName}}
+          %td
+            %a#productDelete{"data-id" => "{{id}}", href: "#"} Delete
+            %a{"href" => "#/app/markers/{{id}}"} Edit
+        {{/each}}

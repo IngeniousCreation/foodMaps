@@ -1,0 +1,77 @@
+<div class='row'>
+  <div class='col-lg-12'>
+    <p> </p>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-lg-12'>
+    <form class='row' id='productPost' role='form'>
+      <div class='col-sm-12 form-group'>
+        <label class='sr-only' for='title'>Title</label>
+        <input class='form-control' id='title' name='title' placeholder='title' type='text'>
+      </div>
+      <div class='col-sm-12 form-group'>
+        <label class='sr-only' for='description'>Description</label>
+        <textarea class='form-control' id='description' name='description' placeholder='description'></textarea>
+      </div>
+      <div class='col-sm-12'>
+        <div class='row'>
+          <div class='col-sm-5 form-group'>
+            <label class='sr-only' for='category'>Category</label>
+            <select class='form-control' id='category'>
+              {{generateDDSlikOption categoryList "id" "name"}}
+            </select>
+          </div>
+          <div class='col-sm-5 form-group'>
+            <label class='sr-only' for='meta'>Icon</label>
+            <select class='form-control' id='meta'>
+              {{generateDDSlikOptionWithImage metaList "id" "icon"}}
+            </select>
+          </div>
+          <div class='col-sm-2'>
+            <a class='btn btn-default' data-content="And here's some amazing content. It's very engaging. right?" data-original-title='Selectionner une destination' data-placement='bottom' data-toggle='popover' href='#' id='map' role='button' title=''>
+              <i class='fa fa-map-marker'></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class='col-sm-12'>
+        <button class='btn btn-primary' style='width: 100%;' type='submit'>Add Product</button>
+      </div>
+      <input id='lat' name='lat' type='hidden'>
+      <input id='lgt' name='lgt' type='hidden'>
+      <input name='products_category_id' type='hidden'>
+      <input name='products_meta_id' type='hidden'>
+    </form>
+    <div class='progress'>
+      <progress class='progress-bar'></progress>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-lg-12'>
+    <table class='table table-condensed table-bordered'>
+      <thead>
+        <th width='5%'>#</th>
+        <th h='' width='75%'>title</th>
+        <th width='25%'>Category</th>
+        <th width='5%'>Meta</th>
+        <th> </th>
+      </thead>
+      <tbody>
+        {{#each list}}
+        <tr>
+          <td>{{id}}</td>
+          <td>{{title}}</td>
+          <td>{{categoryName}}</td>
+          <td>{{metaName}}</td>
+          <td>
+            <a data-id='{{id}}' href='#' id='productDelete'>Delete</a>
+            <a href='#/app/markers/{{id}}'>Edit</a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
