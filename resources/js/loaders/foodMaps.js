@@ -202,12 +202,10 @@ $("div#layout")
         $("div#markers")
             .use($l)
             .setParent("markers-root")
-            .addState("markers-list", "/app/markers/{{s : /?}}{{id : [0-9]*}}", "products/list", {
-                id           : "{{id}}",
+            .addState("markers-list", "/app/markers", "products/list", {
                 markerList   : $ws.use("getHost", ["products/list"]),
                 categoryList : $ws.use("getHost", ["products/categories/list"]),
-                metaList     : $ws.use("getHost", ["products/metas/list"]),
-                product      : $ws.use("getHost", ["products/{{id}}"])
+                metaList     : $ws.use("getHost", ["products/metas/list"])
             })
             .converter(function(d) {
                 console.log(d.product);
@@ -283,8 +281,8 @@ $("div#layout")
                         }
                     }, document.getElementById("map_canvas"), {
                         title: 'La position de mon produit',
-                        lgt: $("form#productPost input#lgt").val(),
-                        lat: $("form#productPost input#lat").val()
+                        lgt: $("form#productPost input#lgt").val() || 0,
+                        lat: $("form#productPost input#lat").val() || 0
                     }, function(map, marker) {
                         google.maps.event.addListener(marker, 'click', function() {
                             infowindow.open(map,marker);
@@ -307,7 +305,7 @@ $("div#layout")
 
                 var d = a.form.get(e.target);
                 $ws.post("products", {data : d}, function(e) {
-                    a.state.forceReloadById("logged-markers-list")
+                    window.location.href="#/app/dashboard";
                 });
             })
             .addListener("jquery", ["a#productDelete", "click"], function(e) {
@@ -335,7 +333,7 @@ $("div#layout")
 
                     var d = a.form.get(e.target);
                     $ws.post("products/categories", {data : d}, function(e) {
-                        a.state.forceReloadById("logged-categories-list")
+                        window.location.href="#/app/dashboard";
                     });
                 })
                 .addListener("jquery", ["a#categoryDelete", "click"], function(e) {
